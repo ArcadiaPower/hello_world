@@ -5,7 +5,9 @@ Oh no! There's a bug! If `x` is `15`, we seem to be printing out `fizz` and not 
 Javascript has an equality operator unique to the language, `===`. This not only ensures equality in value, but also equality in type. Rather than try to parse that mumbo-jumbo, here's a real example:
 ```javascript
 1 == "1" //true
+1 == 1 //true
 1 === "1" //false
+1 === 1 //true
 ```
 Try adding this into your code!
 
