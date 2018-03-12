@@ -13,7 +13,7 @@ You can check your work here http://whatis.techtarget.com/definition/prime-numbe
 
 ## Hint
 
-https://stackoverflow.com/questions/1801391/what-is-the-best-algorithm-for-checking-if-a-number-is-prime
+https://stackoverflow.com/a/1801446/8856470 (This link is targeted to an answer in python which may be a useful starting point)
 
 https://github.com/LindseyMaddox/ruby_projects/blob/master/early_projects/prime_test.rb
 
