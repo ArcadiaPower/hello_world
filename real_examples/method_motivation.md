@@ -14,7 +14,7 @@ number of months in term
 
 how do we know this person pays every other month?
 
-###Amount due - The person skipped a payment and pays every month. In middle of term
+### Amount due - The person skipped a payment and pays every month. In middle of term
 
 ## Class Motivation
 
