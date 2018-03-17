@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>D3 Scaffold</title>
+		  <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	</head>
+	<style>
+		svg {
+			background-color: aliceblue;
+		}   
+
+		.chart-title {
+			font-size: 18px;
+			font-weight: bold;
+		} 
+
+		.chart-subtitle, .y-label, .x-label {
+			font-weight: bold;
+		}   
+</style>
+	<body>
+		<div id="chart">
+		</div>
+		<script>
+var margin = {top: 70, right: 100, bottom: 70, left: 200},
+    width = 800 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
+
+	// setup fill color
+var cValue = function(d) {
+    return d.allegations;
+  },
+   color = d3.scaleOrdinal(["red", "black"]);
+$(document).ready(function () {
+	$.ajax( {
+	    url: "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json", 
+	    dataType: 'json',
+	    type: 'GET',
+	   success: function(data) {
+	            data.forEach(function(d) {
+	              if(d.Doping == ""){
+	                d.allegations = false;
+	              } else {
+	                d.doping = d.Doping;
+	                d.allegations = true;
+	              }
+	              d.name = d.Name;
+	              d.rank = d.Place; 
+	              d.year = d.Year;
+	              d.time = formatTime(d.Seconds);
+	    });
+		
+		   var xScale = d3.scaleLinear()
+		.domain(d3.extent(data, function(d) { return d.time; }))
+		.range([0, width]);
+
+	var yScale = d3.scaleLinear()
+		.domain([0, d3.max(data, function(d) {
+			return d.rank;
+		})])
+		.range([0, height]);
+
+	    var xAxis = d3.axisBottom(xScale).ticks(5);
+
+	    var yAxis = d3.axisRight(yScale).tickValues([0,5,10,15,20,25,30]);
+
+				//Create SVG element
+				var svg = d3.select("#chart")
+						 .append("svg")
+	           .attr("width", width + margin.left + margin.right)
+	          .attr("height", height + margin.top + margin.bottom)
+	          .append("g")
+	          .attr("transform", 
+	              "translate(" + margin.left + "," + margin.top + ")");
+
+	    var tooltip = d3.select("body").append("div")	
+	      .attr("class", "tooltip")				
+	      .style("opacity", 0);
+
+				svg.selectAll("circle")
+				   .data(data)
+				   .enter()
+				   .append("circle")
+				   .attr("cx", function(d) {
+				   		return xScale(d.time);
+				   })
+				   .attr("cy", function(d) {
+				   		return yScale(d.rank);
+				   })
+				   .attr("r", 5)
+	     .style("fill", function(d){
+	       return color(cValue(d));
+	      })
+		.on("mouseover", function(d){
+			  tooltip.transition().duration(200).style("opacity", .9);    
+	      tooltip.html("<div><strong>" + d.name + "</strong></div><div><strong>Year: </strong>" + d.year + "</div><div><strong>Time: </strong>" + d.time.toFixed(2) + " Seconds</div>")
+	        .style("left", (d3.event.pageX) + "px")     
+	        .style("top", (d3.event.pageY - 28) + "px"); 
+	      })
+		    .on("mouseout", function(d) {       
+	        tooltip.transition().duration(1000).style("opacity", 0); 
+	      });
+	     
+	svg.append("g")
+	    .attr("class", "axis") 
+	    .attr("transform", "translate(0," + height + ")")
+	    .call(xAxis);
+
+	svg.append("g")
+	    .attr("class", "axis") 
+	    .call(yAxis);
+	     
+	     svg.append("text")
+	      .attr("class", "chart-title")
+	      .attr("x", width / 2 )
+	      .attr("y",  -30 )
+	      .style("text-anchor", "middle")
+	      .text("Doping in Professional Cycling")
+	     svg.append("text")
+	      .attr("class", "chart-subtitle")
+	      .attr("x", width / 2 )
+	      .attr("y",  0 )
+	      .style("text-anchor", "middle")
+	      .text("35 fastest times up Alpe d'Huez");   
+	     
+	     svg.append("text")
+	      .attr("class", "y-label")
+	      .attr("text-anchor", "end")
+	      .attr("y", -30)
+	      .attr("x",0-(height/2)+25)
+	      .attr("transform", "rotate(-90)")
+	      .text("Ranking");
+	     
+	     svg.append("text")
+	      .attr("class", "x-label")
+	      .attr("text-anchor", "end")
+	      .attr("x", width/2 + 40)
+	      .attr("y", height + 50)
+	      .text("Time(in Minutes)");
+	     
+	      var legend = svg.selectAll(".legend")
+	      .data(color.domain())
+	  .enter().append("g")
+	  .attr("class", "legend")
+	   .attr("transform", function(d, i) {
+	     return "translate(0," + i * 20 + ")";
+	   });
+	     
+	     legend.append("circle")
+	      .attr("cx", width -100)
+	      .attr("cy", 70)
+	      .attr("r", 5)
+	      .style("fill", color);
+	     
+	     legend.append("text")
+	  .attr("x", width - 70)
+	  .attr("y", 70)
+	  .attr("dy", ".35em")
+	  .style("text-anchor", "start")
+	     .text(function(d){
+	          if(d){
+	            return "riders with doping allegations";
+	          } else {
+	            return "no doping allegations";
+	          } 
+	       });
+	   } //success callback
+	}); //ajax call    
+ }); //document ready
+ function formatTime(time){
+   var minutes = time/60;
+   return minutes;
+ }
+
+
+	</script>
+  </body>
+</html>
