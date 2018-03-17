@@ -8,25 +8,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
 	<style>
-		svg {
+		body {
 			background-color: aliceblue;
-			margin-left: 180px;
+		}
+
+		svg {
+			background-color: white;
+			margin-left: 220px;
 		}   
 
 		.chart-title {
-			font-size: 18px;
+			font-size: 24px;
 			font-weight: bold;
 		} 
-
-		.chart-subtitle, .y-label, .x-label {
-			font-weight: bold;
-		}   
+  
 </style>
 	<body>
 		<div id="chart">
 		</div>
 		<script>
-var margin = {top: 70, right: 150, bottom: 70, left: 150},
+var margin = {top: 100, right: 180, bottom: 70, left: 100},
     width = 1000 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
@@ -67,9 +68,10 @@ data.forEach(function(d) {
 	          .attr("transform", 
 	              "translate(" + margin.left + "," + margin.top + ")");
 
-	    var tooltip = d3.select("body").append("div")	
-	      .attr("class", "tooltip")				
-	      .style("opacity", 0);
+	     // Not used yet
+	    // var tooltip = d3.select("body").append("div")	
+	    //   .attr("class", "tooltip")				
+	    //   .style("opacity", 0);
 
 	    var color = d3.scaleOrdinal(["green", "pink", "orange"]);
 
@@ -83,7 +85,7 @@ data.forEach(function(d) {
 				   .attr("cy", function(d) {
 				   		return yScale(d.weight);
 				   })
-				   .attr("r", 5)
+				   .attr("r", 10)
 	     .style("fill", function(d){
 	       return color(d.breed);
 	      });
@@ -100,7 +102,7 @@ data.forEach(function(d) {
 	     svg.append("text")
 	      .attr("class", "chart-title")
 	      .attr("x", width / 2 )
-	      .attr("y",  -30 )
+	      .attr("y",  -60 )
 	      .style("text-anchor", "middle")
 	      .text("Dog Weight by Age and Breed")
 
