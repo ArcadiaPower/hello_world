@@ -10,6 +10,7 @@
 	<style>
 		svg {
 			background-color: aliceblue;
+			margin-left: 180px;
 		}   
 
 		.chart-title {
@@ -25,8 +26,8 @@
 		<div id="chart">
 		</div>
 		<script>
-var margin = {top: 70, right: 100, bottom: 70, left: 200},
-    width = 800 - margin.left - margin.right,
+var margin = {top: 70, right: 150, bottom: 70, left: 150},
+    width = 1000 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
 	// setup fill color
@@ -150,13 +151,13 @@ $(document).ready(function () {
 	   });
 	     
 	     legend.append("circle")
-	      .attr("cx", width -100)
+	      .attr("cx", width -120)
 	      .attr("cy", 70)
 	      .attr("r", 5)
 	      .style("fill", color);
 	     
 	     legend.append("text")
-	  .attr("x", width - 70)
+	  .attr("x", width - 100)
 	  .attr("y", 70)
 	  .attr("dy", ".35em")
 	  .style("text-anchor", "start")
