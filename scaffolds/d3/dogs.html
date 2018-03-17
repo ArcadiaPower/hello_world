@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>D3 Scaffold</title>
+		  <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	</head>
+	<style>
+		svg {
+			background-color: aliceblue;
+			margin-left: 180px;
+		}   
+
+		.chart-title {
+			font-size: 18px;
+			font-weight: bold;
+		} 
+
+		.chart-subtitle, .y-label, .x-label {
+			font-weight: bold;
+		}   
+</style>
+	<body>
+		<div id="chart">
+		</div>
+		<script>
+var margin = {top: 70, right: 150, bottom: 70, left: 150},
+    width = 1000 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
+
+var data = [
+{name: "Frida", age: 7, weight: 35, gender: "female", breed: "terrier"},
+{name: "Pearl", age: 13, weight: 55, gender: "female", breed: "pitbull"},
+{name: "Lucy", age: 5, weight: 25, gender: "female", breed: "terrier"},
+{name: "Charley", age: 14, weight: 20, gender: "male", breed: "terrier"},
+{name: "Funny Face", age: 13, weight: 45, gender: "female", breed: "pitbull"},
+{name: "Clifford", age: 5, weight: 100, gender: "male", breed: "labrador"}
+];
+data.forEach(function(d) {
+	 d.name = d.name;
+	 d.weight = +d.weight;
+	 d.breed = d.breed;
+});
+		
+		   var xScale = d3.scaleLinear()
+		.domain([0,d3.max(data, function(d) { return d.age; })])
+		.range([0, width]);
+
+	var yScale = d3.scaleLinear()
+		.domain([0, d3.max(data, function(d) {
+			return d.weight;
+		})])
+		.range([height, 0]);
+
+	    var xAxis = d3.axisBottom(xScale).ticks(5);
+
+	    var yAxis = d3.axisRight(yScale).ticks(10);
+
+				//Create SVG element
+				var svg = d3.select("#chart")
+						 .append("svg")
+	           .attr("width", width + margin.left + margin.right)
+	          .attr("height", height + margin.top + margin.bottom)
+	          .append("g")
+	          .attr("transform", 
+	              "translate(" + margin.left + "," + margin.top + ")");
+
+	    var tooltip = d3.select("body").append("div")	
+	      .attr("class", "tooltip")				
+	      .style("opacity", 0);
+
+	    var color = d3.scaleOrdinal(["green", "pink", "orange"]);
+
+				svg.selectAll("circle")
+				   .data(data)
+				   .enter()
+				   .append("circle")
+				   .attr("cx", function(d) {
+				   		return xScale(d.age);
+				   })
+				   .attr("cy", function(d) {
+				   		return yScale(d.weight);
+				   })
+				   .attr("r", 5)
+	     .style("fill", function(d){
+	       return color(d.breed);
+	      });
+	     
+	svg.append("g")
+	    .attr("class", "axis") 
+	    .attr("transform", "translate(0," + height + ")")
+	    .call(xAxis);
+
+	svg.append("g")
+	    .attr("class", "axis") 
+	    .call(yAxis);
+	     
+	     svg.append("text")
+	      .attr("class", "chart-title")
+	      .attr("x", width / 2 )
+	      .attr("y",  -30 )
+	      .style("text-anchor", "middle")
+	      .text("Dog Weight by Age and Breed")
+
+	     svg.append("text")
+	      .attr("class", "y-label")
+	      .attr("text-anchor", "end")
+	      .attr("y", -30)
+	      .attr("x",0-(height/2)+25)
+	      .attr("transform", "rotate(-90)")
+	      .text("Weight");
+	     
+	     svg.append("text")
+	      .attr("class", "x-label")
+	      .attr("text-anchor", "end")
+	      .attr("x", width/2 + 40)
+	      .attr("y", height + 50)
+	      .text("Age");
+	     
+	     //translate -rough 170, -50
+	     var legend = svg.append("g")
+    .attr("class", "legend")
+    .attr("transform", "translate(170,-50)")
+    //.attr("transform", "translate(" + (width - 250) + "," + (height - 220) + ")")
+  .selectAll("g")
+    .data(breedsOnly(data))
+  .enter().append("g");
+
+	     
+	     legend.append("circle")
+	      .attr("cx", width -120)
+	      .attr("cy",  function(d, i) { return 70 + (30 * i); })
+	      .attr("r", 5)
+	      .style("fill", (function(d){
+	    		return color(d.breed);
+	  		}));
+	     
+	     legend.append("text")
+	  .attr("x", width - 100)
+	  .attr("y", 70)
+	  .attr("dy", function(d, i) { return 5 + (30 * i); })
+	  .style("text-anchor", "start")
+	  .text(function(d){
+	    return d.breed;
+	  });
+
+	  function breedsOnly(list){
+	  	//only return unique names of breeds
+	  	return [{ breed: "terrier"}, {breed: "pitbull"}, {breed: "labrador"}];
+	  }
+	</script>
+  </body>
+</html>
