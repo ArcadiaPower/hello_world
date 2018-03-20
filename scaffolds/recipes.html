@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -6,29 +5,36 @@
     <title>Recipes</title>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        var parent = document.getElementById('myId');
-        for(i=0; i<recipes.length; i++){
-         recipeDiv = document.createElement('div');
-         recipeDiv.className = 'ind-recipe-box';
-         parent.appendChild(recipeDiv);
-         recipeItem = document.createElement('div');
-         recipeItem.className = 'recipes'
-         recipeItem.innerHTML = recipes[i].name;
-         recipeDiv.appendChild(recipeItem);
-         ingredientsDiv = document.createElement('div');
-         ingredientsDiv.className = 'ingredients-box';
-         parent.appendChild(ingredientsDiv);
-         ingredients = document.createElement('div');
-         ingredients.className = 'ingredients'
-         ingredients.innerHTML = formatIngredients(recipes[i]);
-         ingredientsDiv.appendChild(ingredients);
-        }
+        populateRecipeList();
       });
 
-      function formatIngredients(recipe){
+      function createRecipeTemplate(recipe) {
+        var parent = document.getElementById('myId');
+        recipeDiv = document.createElement('div');
+        recipeDiv.className = 'ind-recipe-box';
+        parent.appendChild(recipeDiv);
+        recipeItem = document.createElement('div');
+        recipeItem.className = 'recipes'
+        recipeItem.innerHTML = recipe.name;
+        recipeDiv.appendChild(recipeItem);
+        ingredientsDiv = document.createElement('div');
+        ingredientsDiv.className = 'ingredients-box';
+        parent.appendChild(ingredientsDiv);
+        ingredients = document.createElement('div');
+        ingredients.className = 'ingredients'
+        ingredients.innerHTML = formatIngredients(recipe);
+        ingredientsDiv.appendChild(ingredients);
+      }
 
+      function populateRecipeList() {
+        for (i = 0; i<recipes.length; i++) {
+         var recipe = recipes[i];
+         createRecipeTemplate(recipe);
+        }
+      }
+
+      function formatIngredients(recipe){
         var ingredients = recipe.ingredients;
-        console.log(ingredients);
         var ingredientsList = "Ingredients: ";
         for (var i=0; i < ingredients.length; i++){
           if (i < ingredients.length - 1){
@@ -40,17 +46,44 @@
         return ingredientsList;
       }
 
-      function addNewRecipe () {
-        //something something something
-        alert("This functionality will be added later. Sorry");
+      function addNewRecipe() {
+        var recipe = getNewRecipe();
+        createRecipeTemplate(recipe);
       }
 
-      //figure out how this gets loaded in
-       var recipes = JSON.parse(localStorage.getItem('_lmx_recipe_box')) ||  [{
-        "id": 0, "name": "lasagna",
-      "ingredients": ["lasagna noodles", "mozzarella cheese", "ricotta cheese", "tomato sauce"]},
-               {"id": 1, "name": "black bean soup", "ingredients": ["vegetable broth", "black beans", "onions", "garlic", "jalapeno pepper"]}];
-          var count = JSON.parse(localStorage.getItem('_recipe_box_count')) || 2;
+      function getNewRecipe(){
+        return {
+          "name": "pasta pomodoro",
+          "ingredients": ["capellini noodles", "tomatoes", "olive oil", "basil", "onions"]
+        }
+      }
+
+      var recipes = [
+        {
+          "name": "lasagna",
+          "ingredients": ["lasagna noodles", "mozzarella cheese", "ricotta cheese", "tomato sauce"]
+        },
+        {
+          "name": "black bean soup",
+          "ingredients": ["vegetable broth", "black beans", "onions", "garlic", "jalapeno pepper"]
+        }
+      ];
+
+      // need 8
+      var additionalRecipes = [
+        {
+          "name": "Paula Dean English Peas",
+          "ingredients": ["english peas", "butter"]
+        },
+        {
+          "name": "Shrimp and Grits",
+          "ingredients": ["shrimp", "grits", "parmesan cheese", "onions", "mushrooms", "butter", "lemon"]
+        },
+        {
+          "name": "pasta pomodoro",
+          "ingredients": ["capellini noodles", "tomatoes", "olive oil", "basil", "onions"]
+        }
+      ];
 
     </script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></link>
@@ -102,7 +135,7 @@
        .indent {
         padding-left: 10px;
       }
-       
+
       .subheader {
         font-weight: bold;
       }
@@ -130,7 +163,7 @@
       <div id="main-add-div" class="row">
          <div class="col-sm-2"></div>
          <div class="col-sm-5"><button class="btn highlight-button" onClick="addNewRecipe()">Add Recipe</button></div>
-        </div>
+      </div>
     </div>
   </body>
 </html>
