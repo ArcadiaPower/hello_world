@@ -1,3 +1,14 @@
+//Description: A mostly one function implementation for calculating amount due. Things to think about:
+
+//Questions
+//Does it work for the scenarios we discussed Tuesday? (LADWP, skipped payment)
+
+//What does the calculation mean?
+
+//Does it work for paying balance after term is finished?
+
+//Does it work for everything else you can think of?
+
 var subscriptionsList = [];
 
 subscriptionsList.push({name: "LED", balance: 100, term_start: "2018-01-01", term_end: "2018-11-01", term_length: 10, cost: 100})
