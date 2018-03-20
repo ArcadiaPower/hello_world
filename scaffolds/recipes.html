@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Recipes</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        var parent = document.getElementById('myId');
+        for(i=0; i<recipes.length; i++){
+         recipeDiv = document.createElement('div');
+         recipeDiv.className = 'ind-recipe-box';
+         parent.appendChild(recipeDiv);
+         recipeItem = document.createElement('div');
+         recipeItem.className = 'recipes'
+         recipeItem.innerHTML = recipes[i].name;
+         recipeDiv.appendChild(recipeItem);
+         ingredientsDiv = document.createElement('div');
+         ingredientsDiv.className = 'ingredients-box';
+         parent.appendChild(ingredientsDiv);
+         ingredients = document.createElement('div');
+         ingredients.className = 'ingredients'
+         ingredients.innerHTML = formatIngredients(recipes[i]);
+         ingredientsDiv.appendChild(ingredients);
+        }
+      });
+
+      function formatIngredients(recipe){
+
+        var ingredients = recipe.ingredients;
+        console.log(ingredients);
+        var ingredientsList = "Ingredients: ";
+        for (var i=0; i < ingredients.length; i++){
+          if (i < ingredients.length - 1){
+            ingredientsList += ingredients[i] + ", ";
+          } else {
+            ingredientsList += "and " + ingredients[i];
+          }
+        }
+        return ingredientsList;
+      }
+
+      function addNewRecipe () {
+        //something something something
+        alert("This functionality will be added later. Sorry");
+      }
+
+      //figure out how this gets loaded in
+       var recipes = JSON.parse(localStorage.getItem('_lmx_recipe_box')) ||  [{
+        "id": 0, "name": "lasagna",
+      "ingredients": ["lasagna noodles", "mozzarella cheese", "ricotta cheese", "tomato sauce"]},
+               {"id": 1, "name": "black bean soup", "ingredients": ["vegetable broth", "black beans", "onions", "garlic", "jalapeno pepper"]}];
+          var count = JSON.parse(localStorage.getItem('_recipe_box_count')) || 2;
+
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></link>
+    <style>
+
+      body {
+        font-family: Lato;
+      }
+
+      .recipe-name {
+        margin-left: 10px;
+      }
+
+      .ind-recipe-box {
+        border: 1px solid #cc9c00;
+        background-color: #ffe180;
+      }
+      .recipes {
+        font-size: 18px;
+        color: #b38900;
+        margin-left: 15px;
+      }
+
+      h2 {color: #e67300;
+      padding-bottom: 10px;}
+
+      .box {
+        background-color: #FFF0BA;
+        padding: 10px;
+      }
+
+      .caret-up {
+          border-top: none;
+          border-bottom: 4px solid   #b38900;
+      }
+
+      .ingredients {
+        padding-bottom: 10px;
+      }
+
+      .ingredients-box {
+        background-color: #fff9e6;
+        color: #4d3b00;
+        padding: 10px 0px 10px 15px;
+      }
+      #main-add-div {
+        padding-top: 15px;
+      }
+       .indent {
+        padding-left: 10px;
+      }
+       
+      .subheader {
+        font-weight: bold;
+      }
+
+      .highlight-button {
+        background-color: #e67300;
+        border: #e67300;
+        color: #fff2e6;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-5">
+          <h2>Recipes</h2>
+        </div>
+      </div>
+      <div class="row indent">
+        <div class="col-sm-2"></div>
+          <div class="col-sm-7 box" id="myId">
+          </div>
+      </div>
+      <div id="main-add-div" class="row">
+         <div class="col-sm-2"></div>
+         <div class="col-sm-5"><button class="btn highlight-button" onClick="addNewRecipe()">Add Recipe</button></div>
+        </div>
+    </div>
+  </body>
+</html>
