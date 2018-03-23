@@ -10,11 +10,11 @@ def check_num(num):
   elif num == 2:
     print("{} is prime".format(num))
   else:
-    for x in range(2, int(math.sqrt(num))):
+    for x in range(2, num):
       if num % x == 0:
-        print("{} is not prime".format(num))
+       # print("{} is not prime".format(num))
         break
-      elif x == int(math.sqrt(num)) - 1:
+      elif x == num - 1:
         print("{} is prime".format(num))
 
 is_prime(100)
