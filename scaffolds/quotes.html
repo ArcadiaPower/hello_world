@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quote Machine</title>
+    <script>
+
+      var index = 0;
+
+      var quotes = [
+        "Shoot for the moon. If you miss, you'll still land amongst the stars.",
+        "That man is a gargoyle, pure and simple."
+      ]
+
+      function showNewQuote () {
+        index = index + 1;
+
+        var quote = quotes[index];
+
+        if (!quote) {
+          index = 0
+          quote = quotes[index];
+        }
+
+        alert(quote);
+      }
+
+    </script>
+    <style>
+
+      h1 {
+        text-align: center;
+      }
+
+      div {
+        text-align: center;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>Quotes inspire hope.</h1>
+    <div>
+      <button onclick="showNewQuote()">Show New Quote</button>
+    </div>
+  </body>
+</html>
