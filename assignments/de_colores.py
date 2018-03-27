@@ -1,10 +1,12 @@
 # TODO:
-# Return the character with the highest count for each item
 # Return the character with the highest count overall
-
+import operator
 def character_count(colors_arr):
+  max_char_list = []
   for x in range(0, len(colors_arr)):
-    get_color_hash(colors_arr[x])
+    color_hash = get_color_hash(colors_arr[x])
+    max_char_list.append(color_hash)
+  print(max_char_list)
 
 def get_color_hash(color):
   color_ct = {}
@@ -14,5 +16,7 @@ def get_color_hash(color):
     else:
       color_ct[color[x]] = 1
   print(color_ct)
+  key, value = max(color_ct.iteritems(), key=lambda x:x[1])
+  return {key: value}
 
 character_count(["red", "purple", "yellow"])
