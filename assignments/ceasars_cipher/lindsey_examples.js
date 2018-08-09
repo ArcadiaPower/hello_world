@@ -1,3 +1,4 @@
+//fcc cipher challenge without punctuation requirements
 var spaceCode = 32;
 var firstLetterCode = 65;
 var lastLetterCode = 90;
