@@ -4,4 +4,9 @@
 
 def method(numbers)
   (numbers[0]..numbers[1]).to_a.reduce(:+)
+
+  # sum = 0
+  # (numbers[0]..numbers[1]).each do |num|
+  #   sum += num
+  # end
 end
